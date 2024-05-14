@@ -4,4 +4,7 @@ canvas {
   button {
     display: block;
   }
-  
+
+  body{
+    background-color: gray;
+  }
