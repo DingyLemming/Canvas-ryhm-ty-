@@ -14,8 +14,8 @@ let paddleX = (canvas.width - paddleWidth) / 2;
 let rightPressed = false;
 let leftPressed = false;
 
-const brickRowCount = 5;
-const brickColumnCount = 3;
+const brickRowCount = 6;
+const brickColumnCount = 4;
 const brickWidth = 75;
 const brickHeight = 20;
 const brickPadding = 10;
