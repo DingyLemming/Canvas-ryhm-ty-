@@ -1,10 +1,40 @@
-canvas {
-  background-color: #caf0fe;
-}
-button {
-  display: block;
-}
+/* style.css */
 
 body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
   background-color: #565656;
+}
+
+canvas {
+  border: 1px solid #000000;
+  background-color: #caf0fe;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: fantasy;
+}
+
+.p1 {
+  color: white;
+  font-family: fantasy;
+}
+
+.p2 {
+  color: white;
+  font-family: fantasy;
+}
+
+.p3 {
+  color: white;
+  font-family: fantasy;
 }

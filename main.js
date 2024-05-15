@@ -16,7 +16,7 @@ let leftPressed = false;
 
 const brickRowCount = 6;
 const brickColumnCount = 5;
-const brickWidth = 75;
+const brickWidth = 80;
 const brickHeight = 20;
 const brickPadding = 10;
 const brickOffsetTop = 30;
@@ -116,12 +116,12 @@ function drawBricks() {
   }
 }
 function drawScore() {
-  ctx.font = "16px Arial";
+  ctx.font = "16px fantasy";
   ctx.fillStyle = "#000000";
   ctx.fillText("Score: " + score, 8, 20);
 }
 function drawLives() {
-  ctx.font = "16px Arial";
+  ctx.font = "16px fantasy";
   ctx.fillStyle = "#000000";
   ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
