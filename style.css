@@ -1,10 +1,6 @@
 canvas {
-    background: #eee;
-  }
-  button {
-    display: block;
-  }
-
-  body{
-    background-color: gray;
-  }
+  background: #eee;
+}
+button {
+  display: block;
+}
