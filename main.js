@@ -75,7 +75,7 @@ function collisionDetection() {
           b.status = 0;
           score++;
           if (score == brickRowCount * brickColumnCount) {
-            alert("YOU WIN, CONGRATS!");
+            alert("VICTORY!");
             document.location.reload();
           }
         }
@@ -146,7 +146,7 @@ function draw() {
     } else {
       lives--;
       if (!lives) {
-        alert("GAME OVER");
+        alert("DEFEAT!");
         document.location.reload();
       } else {
         x = canvas.width / 2;
