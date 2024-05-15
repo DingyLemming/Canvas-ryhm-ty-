@@ -1,6 +1,10 @@
 canvas {
-  background-color: #565656;
+  background-color: #caf0fe;
 }
 button {
   display: block;
+}
+
+body {
+  background-color: #565656;
 }
