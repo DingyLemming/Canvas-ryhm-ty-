@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 const ballRadius = 10;
 
 let x = canvas.width / 2;
-let y = canvas.height - 30;
+let y = canvas.height - 50;
 let dx = 2;
 let dy = -2;
 
@@ -93,7 +93,7 @@ function drawBall() {
 }
 function drawPaddle() {
   ctx.beginPath();
-  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+  ctx.rect(paddleX, canvas.height - 30, paddleWidth, paddleHeight);// ballRadius to -30
   ctx.fillStyle = "#C827F3";
   ctx.fill();
   ctx.closePath();
@@ -137,7 +137,7 @@ function draw() {
 
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
-  }
+  } 
   if (y + dy < ballRadius) {
     dy = -dy;
   } else if (y + dy > canvas.height - ballRadius) {
@@ -155,7 +155,9 @@ function draw() {
         dy = -3;
         paddleX = (canvas.width - paddleWidth) / 2;
       }
-    }
+    }//tähän. ball stays under paddle sometimes. without losing lives
+  } else if (y == canvas.height -30 && x > paddleX && x < paddleX + paddleWidth){
+    dy = -dy;
   }
 
   if (rightPressed && paddleX < canvas.width - paddleWidth) {
