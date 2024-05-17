@@ -138,10 +138,14 @@ function draw() {
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
   } 
-  if (y + dy < ballRadius) {
+  if (y + dy > canvas.height || y + dy < 0) {
+    dy = -dy;
+  }
+
+  if (y == canvas.height -30 && x > paddleX && x < paddleX + paddleWidth) {
     dy = -dy;
   } else if (y + dy > canvas.height - ballRadius) {
-    if (x > paddleX && x < paddleX + paddleWidth) {
+    if (x > paddleX && x < paddleX + paddleWidth && y == canvas.height -30) {
       dy = -dy;
     } else {
       lives--;
@@ -155,9 +159,7 @@ function draw() {
         dy = -3;
         paddleX = (canvas.width - paddleWidth) / 2;
       }
-    }//tähän. ball stays under paddle sometimes. without losing lives
-  } else if (y == canvas.height -30 && x > paddleX && x < paddleX + paddleWidth){
-    dy = -dy;
+    }
   }
 
   if (rightPressed && paddleX < canvas.width - paddleWidth) {
