@@ -1,5 +1,3 @@
-/* style.css */
-
 body {
   display: flex;
   flex-direction: column;
@@ -11,9 +9,31 @@ body {
   background-color: #565656;
 }
 
+#gameContainer {
+  display: flex;
+  align-items: flex-start;
+}
+
 canvas {
   border: 1px solid #000000;
   background-color: #caf0fe;
+}
+
+#infoBox {
+  width: 100px; /* Set a fixed width for the info box */
+  margin-left: 20px;
+  padding: 10px;
+  border: 1px solid #000;
+  background-color: #ffffff;
+  font-family: fantasy;
+  color: #000000;
+}
+
+
+#controls {
+  margin-top: 10px;
+  color: white;
+  font-family: fantasy;
 }
 
 button {
@@ -21,20 +41,5 @@ button {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-  font-family: fantasy;
-}
-
-.p1 {
-  color: white;
-  font-family: fantasy;
-}
-
-.p2 {
-  color: white;
-  font-family: fantasy;
-}
-
-.p3 {
-  color: white;
   font-family: fantasy;
 }

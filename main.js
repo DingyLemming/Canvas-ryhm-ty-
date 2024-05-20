@@ -63,30 +63,41 @@ function mouseMoveHandler(e) {
   }
 }
 
+let gameWon = false; // Flag to track if the game is won
+
 function collisionDetection() {
+  let activeBricks = 0; // Track the number of active bricks
+
   for (let c = 0; c < brickColumnCount; c++) {
     for (let r = 0; r < brickRowCount; r++) {
       let b = bricks[c][r];
       if (b.status == 1) {
+        activeBricks++; // Increment activeBricks for each active brick
+
+        // Check collision with the ball
         if (
-          x > b.x &&
-          x < b.x + brickWidth &&
-          y > b.y &&
-          y < b.y + brickHeight
+          x + ballRadius > b.x &&
+          x - ballRadius < b.x + brickWidth &&
+          y + ballRadius > b.y &&
+          y - ballRadius < b.y + brickHeight
         ) {
           dy = -dy;
           b.status = 0;
           score++;
-          if (score == brickRowCount * brickColumnCount) {
-            if (level < maxLevel) {
-              newLevel();
-            } else {
-              alert("YOU WIN!");
-              document.location.reload();
-            }
-          }
+          updateInfoBox();
         }
       }
+    }
+  }
+
+  // Check if there are no active bricks left
+  if (activeBricks === 0 && !gameWon) {
+    if (level < maxLevel) {
+      newLevel();
+    } else {
+      gameWon = true; // Set gameWon flag to true
+      alert("YOU WIN!");
+      document.location.reload();
     }
   }
 }
@@ -95,14 +106,16 @@ function newLevel() {
   alert(`Congratulations! Proceeding to level ${level + 1}`);
   level++;
   resetBallAndPaddle();
-  score = 0;
+  updateInfoBox();
 
+  // Reset the bricks for the new level
   for (let c = 0; c < brickColumnCount; c++) {
     for (let r = 0; r < brickRowCount; r++) {
       bricks[c][r].status = 1;
     }
   }
 }
+
 
 function drawBall() {
   ctx.beginPath();
@@ -138,22 +151,10 @@ function drawBricks() {
   }
 }
 
-function drawScore() {
-  ctx.font = "16px fantasy";
-  ctx.fillStyle = "#000000";
-  ctx.fillText("Score: " + score, 8, 20);
-}
-
-function drawLives() {
-  ctx.font = "16px fantasy";
-  ctx.fillStyle = "#000000";
-  ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
-}
-
-function drawLevel() {
-  ctx.font = "16px fantasy";
-  ctx.fillStyle = "#000000";
-  ctx.fillText("Level: " + level, canvas.width / 2 - 30, 20);
+function updateInfoBox() {
+  document.getElementById('lives').innerText = 'Lives: ' + lives;
+  document.getElementById('score').innerText = 'Score: ' + score;
+  document.getElementById('level').innerText = 'Level: ' + level;
 }
 
 function draw() {
@@ -161,9 +162,6 @@ function draw() {
   drawBricks();
   drawBall();
   drawPaddle();
-  drawScore();
-  drawLives();
-  drawLevel();  // Add this line to draw the current level
   collisionDetection();
 
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
@@ -178,6 +176,7 @@ function draw() {
       dy = -dy;
     } else if (y + dy > canvas.height - ballRadius) {
       lives--;
+      updateInfoBox();
       if (!lives) {
         alert("DEFEAT!");
         document.location.reload();

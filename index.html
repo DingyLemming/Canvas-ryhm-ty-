@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas peli</title>
+    <title>Canvas Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <p id="controls">Controls: Keyboard Left arrow + Right arrow & Mouse</p>
+    <div id="gameContainer">
+        <canvas id="myCanvas" width="580" height="420"></canvas>
+        <div id="infoBox">
+            <p id="lives">Lives: 3</p>
+            <p id="score">Score: 0</p>
+            <p id="level">Level: 1</p>
+        </div>
+    </div>
 
-    <p class="p1"> </p>
-    <p class= "p2"></p>
-    <p class= "p3">Controls : Keyboard Left arrow + Right arrow & Mouse </p>
-
-
-    <canvas id="myCanvas" width="580" height="420" style="border:1px solid black;"></canvas>
     <button id="runButton">Start game</button>
     <script src="main.js"></script>
 </body>
