@@ -150,6 +150,12 @@ function drawLives() {
   ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
 
+function drawLevel() {
+  ctx.font = "16px fantasy";
+  ctx.fillStyle = "#000000";
+  ctx.fillText("Level: " + level, canvas.width / 2 - 30, 20);
+}
+
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
@@ -157,6 +163,7 @@ function draw() {
   drawPaddle();
   drawScore();
   drawLives();
+  drawLevel();  // Add this line to draw the current level
   collisionDetection();
 
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
