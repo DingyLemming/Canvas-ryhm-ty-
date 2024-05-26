@@ -14,8 +14,8 @@ let paddleX = (canvas.width - paddleWidth) / 2;
 let rightPressed = false;
 let leftPressed = false;
 
-const brickRowCount = 6;
-const brickColumnCount = 5;
+const brickRowCount = 1;
+const brickColumnCount = 1;
 const brickWidth = 80;
 const brickHeight = 20;
 const brickPadding = 10;
@@ -64,6 +64,8 @@ function mouseMoveHandler(e) {
 }
 
 let gameWon = false; // Flag to track if the game is won
+let gameOver = false; // Flag to track if the game is over
+let gamePaused = false; // Flag to track if the game is paused
 
 function collisionDetection() {
   let activeBricks = 0; // Track the number of active bricks
@@ -93,17 +95,20 @@ function collisionDetection() {
   // Check if there are no active bricks left
   if (activeBricks === 0 && !gameWon) {
     if (level < maxLevel) {
-      newLevel();
+      gamePaused = true;
+      displayMessage(`level ${level + 1}`);
+      setTimeout(() => {
+        newLevel();
+      }, 2000);
     } else {
       gameWon = true; // Set gameWon flag to true
-      alert("YOU WIN!");
-      document.location.reload();
+      displayMessage("YOU WIN!");
+      showRestartButton();
     }
   }
 }
 
 function newLevel() {
-  alert(`Congratulations! Proceeding to level ${level + 1}`);
   level++;
   resetBallAndPaddle();
   updateInfoBox();
@@ -114,8 +119,10 @@ function newLevel() {
       bricks[c][r].status = 1;
     }
   }
-}
 
+  gamePaused = false;
+  draw(); // Restart drawing loop
+}
 
 function drawBall() {
   ctx.beginPath();
@@ -127,7 +134,7 @@ function drawBall() {
 
 function drawPaddle() {
   ctx.beginPath();
-  ctx.rect(paddleX, canvas.height - 30, paddleWidth, paddleHeight);
+  ctx.rect(paddleX, canvas.height - paddleHeight - 10, paddleWidth, paddleHeight);
   ctx.fillStyle = "#C827F3";
   ctx.fill();
   ctx.closePath();
@@ -158,6 +165,8 @@ function updateInfoBox() {
 }
 
 function draw() {
+  if (gameOver || gameWon || gamePaused) return; // Stop the game loop if game is over, won, or paused
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
   drawBall();
@@ -167,25 +176,27 @@ function draw() {
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
   } 
-  if (y + dy > canvas.height || y + dy < 0) {
+  if (y + dy < ballRadius) {
     dy = -dy;
-  }
-
-  if (y + dy > canvas.height - paddleHeight - ballRadius) {
+  } else if (y + dy > canvas.height - ballRadius - paddleHeight && y + dy < canvas.height - ballRadius) {
+    // Check if the ball is within the horizontal bounds of the paddle
     if (x > paddleX && x < paddleX + paddleWidth) {
+      // Reverse vertical direction only if the ball hits the top part of the paddle
       dy = -dy;
-    } else if (y + dy > canvas.height - ballRadius) {
+    } else {
       lives--;
       updateInfoBox();
       if (!lives) {
-        alert("DEFEAT!");
-        document.location.reload();
+        gameOver = true;
+        displayMessage("GAME OVER");
+        showRestartButton();
       } else {
         resetBallAndPaddle();
       }
     }
   }
 
+  // Move paddle
   if (rightPressed && paddleX < canvas.width - paddleWidth) {
     paddleX += 7;
   } else if (leftPressed && paddleX > 0) {
@@ -208,4 +219,24 @@ function resetBallAndPaddle() {
   dx = 3;
   dy = -3;
   paddleX = (canvas.width - paddleWidth) / 2;
+}
+
+function displayMessage(message) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.font = "48px serif";
+  ctx.fillStyle = "#C827F3";
+  ctx.textAlign = "center";
+  ctx.fillText(message, canvas.width / 2, canvas.height / 2);
+}
+
+function showRestartButton() {
+  const restartButton = document.createElement("button");
+  restartButton.innerText = "Restart";
+  restartButton.style.position = "absolute";
+  restartButton.style.top = canvas.offsetTop + canvas.height / 2 + 30 + "px";
+  restartButton.style.left = canvas.offsetLeft + canvas.width / 2 - 50 + "px";
+  restartButton.addEventListener("click", () => {
+    document.location.reload();
+  });
+  document.body.appendChild(restartButton);
 }
