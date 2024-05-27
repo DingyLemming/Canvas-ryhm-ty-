@@ -157,6 +157,23 @@ function drawBricks() {
     }
   }
 }
+// wall for level 2
+function collisionWall() {//(0, 200, 250, 20);
+
+  if (y + ballRadius == 200 && x + ballRadius < 250) {//päältä||
+    dy = -dy;
+  } else if (y + ballRadius == 240 && x + ballRadius < 250) {//alta
+    dy = -dy;
+  } else if (x == 250 && y >= 200 && y <= 220) {//sivusta tarkista
+    dx = -dx;
+  }
+}
+
+//draw wall for lvl 2
+function drawWall() {
+  ctx.fillStyle = "purple";
+  ctx.fillRect(0, 200, 250, 20);
+}
 
 function updateInfoBox() {
   document.getElementById('lives').innerText = 'Lives: ' + lives;
