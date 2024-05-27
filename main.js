@@ -159,12 +159,14 @@ function drawBricks() {
 }
 // wall for level 2
 function collisionWall() {//(0, 200, 250, 20);
-
-  if (y + ballRadius == 202 && x + ballRadius < 250) {//päältä||
+  let wallWidth = 250;
+  let wallYover = 200;
+  let wallYunder = 220;
+  if (y + ballRadius == 202 && x + ballRadius < wallWidth) {//päältä||
     dy = -dy;
-  } else if (y + ballRadius == 241 && x + ballRadius < 250 ) {//alta
+  } else if (y + ballRadius == 241 && x + ballRadius < wallWidth ) {//alta
     dy = -dy;
-  } else if (x == 248 && y >= 200 && y <= 220) {//sivusta tarkista
+  } else if (x <= wallWidth + ballRadius && y + ballRadius >= wallYover && y + ballRadius <= 240) {//sivusta tarkista
     dx = -dx;
   }
 }
