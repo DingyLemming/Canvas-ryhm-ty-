@@ -160,11 +160,11 @@ function drawBricks() {
 // wall for level 2
 function collisionWall() {//(0, 200, 250, 20);
 
-  if (y + ballRadius == 200 && x + ballRadius < 250) {//päältä||
+  if (y + ballRadius == 202 && x + ballRadius < 250) {//päältä||
     dy = -dy;
-  } else if (y + ballRadius == 240 && x + ballRadius < 250) {//alta
+  } else if (y + ballRadius == 241 && x + ballRadius < 250 ) {//alta
     dy = -dy;
-  } else if (x == 250 && y >= 200 && y <= 220) {//sivusta tarkista
+  } else if (x == 248 && y >= 200 && y <= 220) {//sivusta tarkista
     dx = -dx;
   }
 }
@@ -185,14 +185,31 @@ function draw() {
   if (gameOver || gameWon || gamePaused) return; // Stop the game loop if game is over, won, or paused
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBricks();
-  drawBall();
-  drawPaddle();
-  collisionDetection();
+
+  if (level == 1) {// same lvl 1 
+    drawBricks();
+    drawBall();
+    drawPaddle();
+    collisionDetection();
+  } else if (level == 2) {// add wall for lvl 2 - check collision
+    drawBricks();
+    drawWall();
+    drawBall();
+    drawPaddle();
+    collisionWall();
+    collisionDetection();
+  } else if (level == 3) {//lvl 3 - wall and ?
+    drawBricks();
+    drawWall();
+    drawBall();
+    drawPaddle();
+    collisionWall();
+    collisionDetection();
+  }
 
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
-  } 
+  }
   if (y + dy < ballRadius) {
     dy = -dy;
   } else if (y + dy > canvas.height - ballRadius - paddleHeight && y + dy < canvas.height - ballRadius) {
