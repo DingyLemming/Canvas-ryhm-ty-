@@ -158,23 +158,22 @@ function drawBricks() {
   }
 }
 // wall for level 2
-function collisionWall() {//(0, 200, 250, 20);
-  let wallWidth = 250;
-  let wallYover = 200;
-  let wallYunder = 220;
-  if (y + ballRadius == 202 && x + ballRadius < wallWidth) {//päältä||
+function collisionWall() {
+  let wallWidth = 242;
+  if (y + ballRadius == 241 && x + ballRadius < wallWidth) {//alta
     dy = -dy;
-  } else if (y + ballRadius == 241 && x + ballRadius < wallWidth ) {//alta
+  } else if (y + ballRadius == 202 && x + ballRadius < wallWidth) {//päältä||
     dy = -dy;
-  } else if (x <= wallWidth + ballRadius && y + ballRadius >= wallYover && y + ballRadius <= 240) {//sivusta tarkista
+  } else if (x  == wallWidth && y + ballRadius >= 200 && y + ballRadius <= 240 
+  ) {//sivusta tarkista
     dx = -dx;
   }
 }
 
-//draw wall for lvl 2
+//draw wall for lvl 2 and 3
 function drawWall() {
   ctx.fillStyle = "purple";
-  ctx.fillRect(0, 200, 250, 20);
+  ctx.fillRect(0, 200, 242, 20);
 }
 
 function updateInfoBox() {
