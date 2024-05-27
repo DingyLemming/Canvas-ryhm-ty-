@@ -36,6 +36,32 @@ for (let c = 0; c < brickColumnCount; c++) {
   }
 }
 
+let audioContext;
+let bounceSoundBuffer;
+
+function loadSound(url) {
+  return fetch(url)
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer));
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  loadSound('bounce1.mp3').then(buffer => {
+    bounceSoundBuffer = buffer;
+  });
+});
+
+function playBounceSound() {
+  if (!bounceSoundBuffer) return;
+  
+  const source = audioContext.createBufferSource();
+  source.buffer = bounceSoundBuffer;
+  source.playbackRate.value = 4.5; // Speed up the playback rate
+  source.connect(audioContext.destination);
+  source.start(0);
+}
+
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -86,6 +112,7 @@ function collisionDetection() {
           dy = -dy;
           b.status = 0;
           score++;
+          playBounceSound(); // Play sound on brick hit
           updateInfoBox();
         }
       }
@@ -96,7 +123,7 @@ function collisionDetection() {
   if (activeBricks === 0 && !gameWon) {
     if (level < maxLevel) {
       gamePaused = true;
-      displayMessage(`level ${level + 1}`);
+      displayMessage(`Proceeding to level ${level + 1}`);
       setTimeout(() => {
         newLevel();
       }, 2000);
@@ -175,14 +202,17 @@ function draw() {
 
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
+    playBounceSound(); // Play sound on wall hit
   } 
   if (y + dy < ballRadius) {
     dy = -dy;
+    playBounceSound(); // Play sound on ceiling hit
   } else if (y + dy > canvas.height - ballRadius - paddleHeight && y + dy < canvas.height - ballRadius) {
     // Check if the ball is within the horizontal bounds of the paddle
     if (x > paddleX && x < paddleX + paddleWidth) {
       // Reverse vertical direction only if the ball hits the top part of the paddle
       dy = -dy;
+      playBounceSound(); // Play sound on paddle hit
     } else {
       lives--;
       updateInfoBox();
@@ -230,13 +260,16 @@ function displayMessage(message) {
 }
 
 function showRestartButton() {
-  const restartButton = document.createElement("button");
-  restartButton.innerText = "Restart";
-  restartButton.style.position = "absolute";
-  restartButton.style.top = canvas.offsetTop + canvas.height / 2 + 30 + "px";
-  restartButton.style.left = canvas.offsetLeft + canvas.width / 2 - 50 + "px";
-  restartButton.addEventListener("click", () => {
+  const restartButton = document.createElement('button');
+  restartButton.id = 'restartButton';
+  restartButton.innerText = 'Restart';
+  restartButton.style.position = 'absolute';
+  restartButton.style.top = '50%';
+  restartButton.style.left = '50%';
+  restartButton.style.transform = 'translate(-50%, -50%)';
+  document.body.appendChild(restartButton);
+  
+  restartButton.addEventListener('click', () => {
     document.location.reload();
   });
-  document.body.appendChild(restartButton);
 }
