@@ -207,7 +207,7 @@ function collisionWall() {
   } else if (y == wallUnder + 9 && x  <= wallWidth) {//alta
     dy = -dy;
     playBounceSound(); // Play sound on unbreakable wall hit
-  } else if (x  == wallWidth  && y + 9 >= wallOver + 3  && y <= wallUnder + ballRadius + 3) {//sivusta
+  } else if (x  == wallWidth  && y + ballRadius > wallOver   && y <= wallUnder + ballRadius ) {//sivusta
     dx = -dx;
     playBounceSound(); // Play sound on unbreakable wall hit
   }
@@ -216,15 +216,14 @@ function collisionWall2() {//vasen-290 ja oikea-299
   let wallHeight = 99;
   let wallLeft = 290;
   let wallRight = 299;
-  if (x  == wallLeft - 9 + 3 && y <= wallHeight){//vasen
+  if (x  == wallLeft - 9  && y <= wallHeight){//vasen
     dx = -dx;
-  } else if(x   == wallRight  + 3 && y <= wallHeight){//oikea
+  } else if(x   == wallRight  + 2 && y <= wallHeight){//oikea
     dx = -dx;
   } else if (y == wallHeight + 1 && x  >= 284  && x <= 302) {
     dy = -dy;
   }
 }
-
 //draw wall for lvl 2 and 3
 function drawWall() {
   ctx.fillStyle = "#959595";
