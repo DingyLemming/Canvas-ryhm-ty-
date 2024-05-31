@@ -207,7 +207,7 @@ function collisionWall() {
   } else if (y == wallUnder + 9 && x  <= wallWidth) {//alta
     dy = -dy;
     playBounceSound(); // Play sound on unbreakable wall hit
-  } else if (x  == wallWidth  && y + 9 >= wallOver + 1  && y <= wallUnder + ballRadius) {//sivusta
+  } else if (x  == wallWidth  && y + 9 >= wallOver + 3  && y <= wallUnder + ballRadius + 3) {//sivusta
     dx = -dx;
     playBounceSound(); // Play sound on unbreakable wall hit
   }
@@ -220,19 +220,7 @@ function collisionWall2() {//vasen-290 ja oikea-299
     dx = -dx;
   } else if(x   == wallRight  + 3 && y <= wallHeight){//oikea
     dx = -dx;
-  } else if (y == wallHeight + 1 && x  > 284  && x < 302) {
-    dy = -dy;
-  }
-}
-function collisionWall2() {//vasen-290 ja oikea-299
-  let wallHeight = 99;
-  let wallLeft = 290;
-  let wallRight = 299;
-  if (x  == wallLeft - 9 + 3 && y <= wallHeight){//vasen
-    dx = -dx;
-  } else if(x   == wallRight  + 3 && y <= wallHeight){//oikea
-    dx = -dx;
-  } else if (y == wallHeight + 1 && x  > 284  && x < 302) {
+  } else if (y == wallHeight + 1 && x  >= 284  && x <= 302) {
     dy = -dy;
   }
 }
