@@ -199,23 +199,52 @@ function drawBricks() {
 // wall for level 2
 function collisionWall() {
   let wallWidth = 242;
-  if (y + ballRadius == 241 && x + ballRadius < wallWidth) {//alta
+  let wallOver = 201;
+  let wallUnder = 219;
+  if (y + 9 == wallOver && x <= wallWidth) {//päältä
     dy = -dy;
     playBounceSound(); // Play sound on unbreakable wall hit
-  } else if (y + ballRadius == 202 && x + ballRadius < wallWidth) {//päältä||
+  } else if (y == wallUnder + 9 && x  <= wallWidth) {//alta
     dy = -dy;
     playBounceSound(); // Play sound on unbreakable wall hit
-  } else if (x  == wallWidth && y + ballRadius >= 200 && y + ballRadius <= 240 
-  ) {//sivusta tarkista
+  } else if (x  == wallWidth  && y + 9 >= wallOver + 1  && y <= wallUnder + ballRadius) {//sivusta
     dx = -dx;
     playBounceSound(); // Play sound on unbreakable wall hit
+  }
+}
+function collisionWall2() {//vasen-290 ja oikea-299
+  let wallHeight = 99;
+  let wallLeft = 290;
+  let wallRight = 299;
+  if (x  == wallLeft - 9 + 3 && y <= wallHeight){//vasen
+    dx = -dx;
+  } else if(x   == wallRight  + 3 && y <= wallHeight){//oikea
+    dx = -dx;
+  } else if (y == wallHeight + 1 && x  > 284  && x < 302) {
+    dy = -dy;
+  }
+}
+function collisionWall2() {//vasen-290 ja oikea-299
+  let wallHeight = 99;
+  let wallLeft = 290;
+  let wallRight = 299;
+  if (x  == wallLeft - 9 + 3 && y <= wallHeight){//vasen
+    dx = -dx;
+  } else if(x   == wallRight  + 3 && y <= wallHeight){//oikea
+    dx = -dx;
+  } else if (y == wallHeight + 1 && x  > 284  && x < 302) {
+    dy = -dy;
   }
 }
 
 //draw wall for lvl 2 and 3
 function drawWall() {
-  ctx.fillStyle = "purple";
-  ctx.fillRect(0, 200, 242, 20);
+  ctx.fillStyle = "#959595";
+  ctx.fillRect(0, 201, 242, 19);
+}
+function drawWall2() {
+  ctx.fillStyle = "#959595";
+  ctx.fillRect(290, 0, 10, 100);
 }
 
 function updateInfoBox() {
@@ -229,24 +258,26 @@ function draw() {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  if (level == 1) {// same lvl 1 
+  if (level == 1) {
     drawBricks();
     drawBall();
     drawPaddle();
     collisionDetection();
-  } else if (level == 2) {// add wall for lvl 2 - check collision
+  } else if (level == 2) {
     drawBricks();
     drawWall();
     drawBall();
     drawPaddle();
     collisionWall();
     collisionDetection();
-  } else if (level == 3) {//lvl 3 - wall and ?
+  } else if (level == 3) {
     drawBricks();
     drawWall();
+    drawWall2();
     drawBall();
     drawPaddle();
     collisionWall();
+    collisionWall2();
     collisionDetection();
   }
 
