@@ -184,6 +184,24 @@ function drawBricks() {
     }
   }
 }
+// wall for level 2
+function collisionWall() {
+  let wallWidth = 242;
+  if (y + ballRadius == 241 && x + ballRadius < wallWidth) {//alta
+    dy = -dy;
+  } else if (y + ballRadius == 202 && x + ballRadius < wallWidth) {//päältä||
+    dy = -dy;
+  } else if (x  == wallWidth && y + ballRadius >= 200 && y + ballRadius <= 240 
+  ) {//sivusta tarkista
+    dx = -dx;
+  }
+}
+
+//draw wall for lvl 2 and 3
+function drawWall() {
+  ctx.fillStyle = "purple";
+  ctx.fillRect(0, 200, 242, 20);
+}
 
 function updateInfoBox() {
   document.getElementById('lives').innerText = 'Lives: ' + lives;
@@ -195,10 +213,27 @@ function draw() {
   if (gameOver || gameWon || gamePaused) return; // Stop the game loop if game is over, won, or paused
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBricks();
-  drawBall();
-  drawPaddle();
-  collisionDetection();
+
+  if (level == 1) {// same lvl 1 
+    drawBricks();
+    drawBall();
+    drawPaddle();
+    collisionDetection();
+  } else if (level == 2) {// add wall for lvl 2 - check collision
+    drawBricks();
+    drawWall();
+    drawBall();
+    drawPaddle();
+    collisionWall();
+    collisionDetection();
+  } else if (level == 3) {//lvl 3 - wall and ?
+    drawBricks();
+    drawWall();
+    drawBall();
+    drawPaddle();
+    collisionWall();
+    collisionDetection();
+  }
 
   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
     dx = -dx;
