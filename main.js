@@ -65,6 +65,7 @@ function playBounceSound() {
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
+document.addEventListener("keydown", spaceHandler, false);
 
 function keyDownHandler(e) {
   if (e.key == "Right" || e.key == "ArrowRight") {
@@ -86,12 +87,22 @@ function mouseMoveHandler(e) {
   let relativeX = e.clientX - canvas.offsetLeft;
   if (relativeX > 0 && relativeX < canvas.width) {
     paddleX = relativeX - paddleWidth / 2;
+    if (!ballLaunched) {
+      x = paddleX + paddleWidth / 2;
+    }
   }
 }
 
 let gameWon = false; // Flag to track if the game is won
 let gameOver = false; // Flag to track if the game is over
 let gamePaused = false; // Flag to track if the game is paused
+let ballLaunched = false; // Flag to track if the ball has been launched
+
+function spaceHandler(e) {
+  if (e.code === "Space" && !ballLaunched) {
+    ballLaunched = true;
+  }
+}
 
 function collisionDetection() {
   let activeBricks = 0; // Track the number of active bricks
@@ -148,6 +159,7 @@ function newLevel() {
   }
 
   gamePaused = false;
+  ballLaunched = false; // Reset the ballLaunched flag
   draw(); // Restart drawing loop
 }
 
@@ -189,11 +201,14 @@ function collisionWall() {
   let wallWidth = 242;
   if (y + ballRadius == 241 && x + ballRadius < wallWidth) {//alta
     dy = -dy;
+    playBounceSound(); // Play sound on unbreakable wall hit
   } else if (y + ballRadius == 202 && x + ballRadius < wallWidth) {//päältä||
     dy = -dy;
+    playBounceSound(); // Play sound on unbreakable wall hit
   } else if (x  == wallWidth && y + ballRadius >= 200 && y + ballRadius <= 240 
   ) {//sivusta tarkista
     dx = -dx;
+    playBounceSound(); // Play sound on unbreakable wall hit
   }
 }
 
@@ -264,12 +279,21 @@ function draw() {
   // Move paddle
   if (rightPressed && paddleX < canvas.width - paddleWidth) {
     paddleX += 7;
+    if (!ballLaunched) {
+      x = paddleX + paddleWidth / 2;
+    }
   } else if (leftPressed && paddleX > 0) {
     paddleX -= 7;
+    if (!ballLaunched) {
+      x = paddleX + paddleWidth / 2;
+    }
   }
 
-  x += dx;
-  y += dy;
+  if (ballLaunched) {
+    x += dx;
+    y += dy;
+  }
+
   requestAnimationFrame(draw);
 }
 
@@ -284,6 +308,7 @@ function resetBallAndPaddle() {
   dx = 3;
   dy = -3;
   paddleX = (canvas.width - paddleWidth) / 2;
+  ballLaunched = false;
 }
 
 function displayMessage(message) {
