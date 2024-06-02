@@ -243,8 +243,14 @@ function updateInfoBox() {
   document.getElementById('level').innerText = 'Level: ' + level;
 }
 
-function draw() {
+let lastTime = 0;
+
+function draw(timestamp) {
   if (gameOver || gameWon || gamePaused) return; // Stop the game loop if game is over, won, or paused
+
+  if (!lastTime) lastTime = timestamp;
+  const deltaTime = (timestamp - lastTime) / 16.67; // Normalize the deltaTime to approximately 60fps
+  lastTime = timestamp;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -299,27 +305,27 @@ function draw() {
 
   // Move paddle
   if (rightPressed && paddleX < canvas.width - paddleWidth) {
-    paddleX += 7;
+    paddleX += 7 * deltaTime;
     if (!ballLaunched) {
       x = paddleX + paddleWidth / 2;
     }
   } else if (leftPressed && paddleX > 0) {
-    paddleX -= 7;
+    paddleX -= 7 * deltaTime;
     if (!ballLaunched) {
       x = paddleX + paddleWidth / 2;
     }
   }
 
   if (ballLaunched) {
-    x += dx;
-    y += dy;
+    x += dx * deltaTime;
+    y += dy * deltaTime;
   }
 
   requestAnimationFrame(draw);
 }
 
 document.getElementById("runButton").addEventListener("click", function () {
-  draw();
+  requestAnimationFrame(draw);
   this.disabled = true;
 });
 
