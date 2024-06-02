@@ -207,36 +207,26 @@ function collisionWall() {
   } else if (y == wallUnder + 9 && x  <= wallWidth) {//alta
     dy = -dy;
     playBounceSound(); // Play sound on unbreakable wall hit
-  } else if (x  == wallWidth  && y + 9 >= wallOver + 1  && y <= wallUnder + ballRadius) {//sivusta
+  } else if (x  == wallWidth  && y - 9 >= wallOver + 1  && y <= wallUnder + ballRadius + 6 ) {//sivusta
     dx = -dx;
     playBounceSound(); // Play sound on unbreakable wall hit
   }
 }
 function collisionWall2() {//vasen-290 ja oikea-299
-  let wallHeight = 99;
-  let wallLeft = 290;
-  let wallRight = 299;
-  if (x  == wallLeft - 9 + 3 && y <= wallHeight){//vasen
-    dx = -dx;
-  } else if(x   == wallRight  + 3 && y <= wallHeight){//oikea
-    dx = -dx;
-  } else if (y == wallHeight + 1 && x  > 284  && x < 302) {
+  let wallOver = 201;
+  let wallUnder = 219;
+  let wallLeft  = 500;
+  if (y + 9 == wallOver && x >= wallLeft) {//päältä
     dy = -dy;
+    playBounceSound(); // Play sound on unbreakable wall hit
+  } else if (y == wallUnder + 9 && x  >= wallLeft) {//alta
+    dy = -dy;
+    playBounceSound(); // Play sound on unbreakable wall hit
+  } else if (x  == wallLeft  && y - 9 >= wallOver + 1  && y <= wallUnder + ballRadius + 6) {//sivusta
+    dx = -dx;
+    playBounceSound(); // Play sound on unbreakable wall hit
   }
 }
-function collisionWall2() {//vasen-290 ja oikea-299
-  let wallHeight = 99;
-  let wallLeft = 290;
-  let wallRight = 299;
-  if (x  == wallLeft - 9 + 3 && y <= wallHeight){//vasen
-    dx = -dx;
-  } else if(x   == wallRight  + 3 && y <= wallHeight){//oikea
-    dx = -dx;
-  } else if (y == wallHeight + 1 && x  > 284  && x < 302) {
-    dy = -dy;
-  }
-}
-
 //draw wall for lvl 2 and 3
 function drawWall() {
   ctx.fillStyle = "#959595";
@@ -244,7 +234,7 @@ function drawWall() {
 }
 function drawWall2() {
   ctx.fillStyle = "#959595";
-  ctx.fillRect(290, 0, 10, 100);
+  ctx.fillRect(500, 201, 80, 19);
 }
 
 function updateInfoBox() {
